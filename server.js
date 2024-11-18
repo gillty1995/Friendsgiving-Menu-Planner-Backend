@@ -10,16 +10,24 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production"
-      ? "https://api.friendsgiving-menu.fr.to" // Production frontend URL
-      : "http://127.0.0.1:5501", // Local frontend URL for development
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
+const allowedOrigins = [
+  "https://api.friendsgiving-menu.fr.to", // deployed frontend
+  "http://127.0.0.1:5501", // local development server
+];
 
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+    methods: ["GET", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 // Connect to MongoDB
 mongoose
