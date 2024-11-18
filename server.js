@@ -24,11 +24,11 @@ mongoose
     console.log("MongoDB connection error:", err);
   });
 
-// Import routes
-const dishRoutes = require("./routes/dishRoutes");
+// Import consolidated routes
+const routes = require("./routes");
 
 // Use routes
-app.use("/api/dishes", dishRoutes);
+app.use("/api", routes);
 
 // Set up a basic test route
 app.get("/", (req, res) => {

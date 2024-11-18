@@ -64,8 +64,38 @@ const deleteDish = async (req, res) => {
   }
 };
 
+// Update a dish by ID
+const updateDish = async (req, res) => {
+  try {
+    const dishId = req.params.id;
+    const { name, category, imageUrl, ingredients } = req.body;
+
+    const updatedDish = await Dish.findByIdAndUpdate(
+      dishId,
+      { name, category, imageUrl, ingredients },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedDish) {
+      return res.status(404).json({ message: "Dish not found" });
+    }
+
+    res.status(200).json({
+      message: "Dish updated successfully",
+      dish: updatedDish,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error updating dish",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createDish,
   getAllDishes,
   deleteDish,
+  updateDish,
 };
