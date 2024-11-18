@@ -11,9 +11,12 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: "http://127.0.0.1:5501", // Replace with your frontend URL
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allow necessary methods
-  allowedHeaders: ["Content-Type", "Authorization"], // Allow necessary headers
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://api.friendsgiving-menu.fr.to" // Production frontend URL
+      : "http://127.0.0.1:5501", // Local frontend URL for development
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
