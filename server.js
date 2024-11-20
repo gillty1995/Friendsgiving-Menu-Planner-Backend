@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 const allowedOrigins = [
-  "https://friendsgiving-menu.fr.to", // deployed frontend
+  // "https://friendsgiving-menu.fr.to", // deployed frontend
   "https://api.friendsgiving-menu.fr.to", // backend, in case it needs to be accessed from itself
   "http://127.0.0.1:5501", // local development server
 ];
